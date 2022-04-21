@@ -1,5 +1,8 @@
 package hellojpa;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -7,15 +10,13 @@ public class Member {
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
+    private String city;
+    private String street;
+    private String zipcode;
 
-    @Column(name = "USERNAME")
-    private String name;
-
-//    @Column(name = "TEAM_ID")
-//    private Long teamId;
-    @ManyToOne // member N : team 1
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    //굳이 양방향을 하지 않아도 됨.
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -25,20 +26,27 @@ public class Member {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCity() {
+        return city;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public Team getTeam() {
-        return team;
+    public String getStreet() {
+        return street;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 }
