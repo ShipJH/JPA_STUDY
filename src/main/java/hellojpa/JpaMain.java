@@ -15,26 +15,16 @@ public class JpaMain {
         tx.begin();
 
         try {
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("HelloB");
-//            em.persist(member);
-//            Member findMember = em.find(Member.class, 1L);
-//            System.out.println("findMEmber.id = " + findMember.getId());
-//            System.out.println("findMEmber.name = " + findMember.getName());
-//
-//            findMember.setName("HelloJPA");
-//            em.persist 하지않아도, commit시점에 변경되었다면 Update를 실행하게 된다.
+            //팀저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            //JPQL 맛보기
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1) // page 1 ~
-                    .setMaxResults(10) // page ~ 10
-                    .getResultList();
-
-            for (Member member : result) {
-                System.out.println("name = " + member.getName());
-            }
+            //회원 저장
+            Member member = new Member();
+            member.setName("member1");
+            member.getTeamId(team.getId());
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
@@ -44,5 +34,7 @@ public class JpaMain {
         }
         emf.close();
     }
+
+
 }
 
